@@ -64,7 +64,6 @@ sns.color_palette("BrBG", 7)
 # Classification Model Libraries :
 
 from sklearn.tree                    import DecisionTreeClassifier, plot_tree, export_graphviz
-
 # from sklearn.svm                   import SVC
 # from sklearn.naive_bayes           import GaussianNB
 # from sklearn.neighbors             import KNeighborsClassifier
@@ -87,8 +86,16 @@ from sklearn.metrics import confusion_matrix
 import pydotplus
 from sklearn.externals.six import StringIO  
 from IPython.display import Image, SVG, display
-# from graphviz import Source                              
 from ipywidgets import interactive
+# from graphviz import Source   
+
+from sklearn.tree import export_graphviz
+from sklearn.externals.six import StringIO  
+from IPython.display import Image  
+import pydotplus
+
+
+
 
 # import statsmodels.formula.api as smf
 # from sklearn.metrics             import roc_curve , accuracy_score , precision_score , recall_score , roc_auc_score , f1_score
@@ -99,13 +106,19 @@ from ipywidgets import interactive
 # In[2]:
 
 
-cd C:/Users/LD196YS/Desktop/10. BITS_Assignment/2.DM/Assignment_1/
+# Set Current Path :
 
 
 # In[3]:
 
 
-# Setting Location of Dataset :
+cd C:/Users/LD196YS/Desktop/10. BITS_Assignment/2.DM/Assignment_1/
+
+
+# In[4]:
+
+
+# Set Location of Dataset and Result :
 
 data_location = "C:/Users/LD196YS/Desktop/10. BITS_Assignment/2.DM/Assignment_1/Assignment_CHN/"
 
@@ -116,7 +129,7 @@ data_sheet = ['Data']
 
 # # 1.2 Importing CSV / Excel File into Pandas DataFrame :
 
-# In[4]:
+# In[5]:
 
 
 # Set Location of DataSet (.xlsx file) :
@@ -132,7 +145,7 @@ print("Type :", type(data))
 print("Dataframe : ", data)
 
 
-# In[5]:
+# In[6]:
 
 
 # Copy of Data Frame / Data Set without Preprocessing :
@@ -140,7 +153,7 @@ print("Dataframe : ", data)
 df_1 = copy.copy(data)
 
 
-# In[6]:
+# In[7]:
 
 
 # View the First 5 rows of DataFrame :
@@ -148,7 +161,7 @@ df_1 = copy.copy(data)
 data.head()
 
 
-# In[7]:
+# In[8]:
 
 
 # View the Last 5 rows of DataFrame :
@@ -158,7 +171,7 @@ data.tail()
 
 # # 2.1 Extracting Information on Columns :
 
-# In[8]:
+# In[9]:
 
 
 # Prints Information of All Columns :
@@ -166,7 +179,7 @@ data.tail()
 data.info() # data.info(verbose=True) 
 
 
-# In[9]:
+# In[10]:
 
 
 # Prints a Summary of Columns Count and its dtypes but not per column Information :
@@ -176,7 +189,7 @@ data.info() # data.info(verbose=True)
 
 # # 2.2 Extracting Statistical Information on Numerical Columns :
 
-# In[10]:
+# In[11]:
 
 
 # Shows Descriptive Statistics Values on Numerical Value based Features :
@@ -188,7 +201,7 @@ data.describe()
 
 # ### 1. Using PairPlot :
 
-# In[11]:
+# In[12]:
 
 
 # sns.pairplot(data)
@@ -196,7 +209,7 @@ data.describe()
 
 # ### 2. Correlation Matrix :
 
-# In[12]:
+# In[13]:
 
 
 data.corr()
@@ -204,7 +217,7 @@ data.corr()
 
 # ### 3. Heatpot to Visualise Correlation
 
-# In[13]:
+# In[14]:
 
 
 sns.heatmap(data.corr())
@@ -212,7 +225,7 @@ sns.heatmap(data.corr())
 
 # # 3. Exploring Predictor Variables / Features :
 
-# In[14]:
+# In[15]:
 
 
 # View the (Rows,Columns) in DataFrame :
@@ -222,7 +235,7 @@ data.shape
 
 # ### 3.1 Find and Impute Missing Values : 
 
-# In[15]:
+# In[16]:
 
 
 # Sum of Missing Values in Each Column :
@@ -232,7 +245,7 @@ data.isnull().sum().sort_values(ascending=False)
 # NOTE : Since there are Few Missing Values in any of the Columns, Imputation is Needed.
 
 
-# In[16]:
+# In[17]:
 
 
 # Fill the Missing Values with Forward Fill Technique :
@@ -244,13 +257,13 @@ data.fillna(method='ffill',inplace=True)
 print(data.isnull().sum())
 
 
-# In[17]:
+# In[18]:
 
 
 help (data.drop_duplicates)
 
 
-# In[18]:
+# In[19]:
 
 
 # dropping ALL duplicte values 
@@ -258,7 +271,7 @@ help (data.drop_duplicates)
 # data.drop_duplicates(keep = 'first', inplace = True) 
 
 
-# In[19]:
+# In[20]:
 
 
 # View the (Rows,Columns) in DataFrame :
@@ -268,7 +281,7 @@ data.shape
 
 # # 4. Finding Unique Values and Total Counts :
 
-# In[20]:
+# In[21]:
 
 
 data.columns
@@ -276,7 +289,7 @@ data.columns
 
 # ### 4.1 Predictors / Independent Variables :
 
-# In[21]:
+# In[22]:
 
 
 # Binning the Data of Age to make it Categorical :
@@ -284,7 +297,7 @@ data.columns
 data['Age'] = pd.cut(data['Age'], [10, 20, 30,40, 50, 60, 70, 80, 90], labels=['11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
 
-# In[22]:
+# In[23]:
 
 
 # Unique Age Values :
@@ -298,7 +311,7 @@ plt.ylabel("Total Members", labelpad=14)
 plt.title("Total Members based on Age Groups", y=1.02);
 
 
-# In[23]:
+# In[24]:
 
 
 # Unique Job Values :
@@ -311,7 +324,7 @@ plt.ylabel("Total Jobs", labelpad=14)
 plt.title("Total Jobs based on Job Groups", y=1.02);
 
 
-# In[24]:
+# In[25]:
 
 
 # Unique Marital Status Values :
@@ -324,7 +337,7 @@ plt.ylabel("Total Status", labelpad=14)
 plt.title("Total Status based on Marital Status", y=1.02);
 
 
-# In[25]:
+# In[26]:
 
 
 # Unique Education Values :
@@ -339,7 +352,7 @@ plt.title("Total Status based on Marital Status", y=1.02);
 # NOTE : We have Inconsistent 4th Category - 'unknown'.
 
 
-# In[26]:
+# In[27]:
 
 
 # Unique Credit Default Values :
@@ -352,7 +365,7 @@ plt.ylabel("Total Status", labelpad=14)
 plt.title("Total Status based on Marital Status", y=1.02);
 
 
-# In[27]:
+# In[28]:
 
 
 # Unique Housing Loan Values :
@@ -367,13 +380,13 @@ plt.title("Total Status based on Marital Status", y=1.02);
 # NOTE : We have Inconsistent 3rd Category - 'xxxyy'.
 
 
-# In[28]:
+# In[29]:
 
 
 data['Housing Loan'] = data['Housing Loan'].str.replace('xxxyy','yes')
 
 
-# In[29]:
+# In[30]:
 
 
 # Unique Housing Loan Values :
@@ -388,7 +401,7 @@ plt.title("Total Status based on Marital Status", y=1.02);
 # NOTE : We have Inconsistent 3rd Category - 'xxxyy' => Replaced with Yes.
 
 
-# In[30]:
+# In[31]:
 
 
 # Unique Personal Loan Values :
@@ -403,7 +416,7 @@ plt.title("Total Status based on Marital Status", y=1.02);
 
 # ### 4.2. Exploring Target Varaible :
 
-# In[31]:
+# In[32]:
 
 
 # Unique Term Deposit Taken Values :
@@ -416,7 +429,7 @@ plt.ylabel("Total Count", labelpad=14)
 plt.title("Total Count based on Term Deposit Taken", y=1.02);
 
 
-# In[32]:
+# In[33]:
 
 
 # for index in data.columns:
@@ -425,7 +438,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 #     print()
 
 
-# In[33]:
+# In[34]:
 
 
 # # Cross Tab to display Education stats with respect to y (ie) Target variable :
@@ -433,7 +446,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # pd.crosstab(index=data["Education"], columns=data["Term Deposit Taken"])
 
 
-# In[34]:
+# In[35]:
 
 
 # # Barplot for the Predictor / Independent Variable - job : 
@@ -442,7 +455,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[35]:
+# In[36]:
 
 
 # # Barplot for the Predictor / Independent Variable - marital : 
@@ -451,7 +464,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[36]:
+# In[37]:
 
 
 # # Barplot for the Predictor / Independent Variable - default : 
@@ -460,7 +473,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[37]:
+# In[38]:
 
 
 # # Barplot for the Predictor / Independent Variable - housing : 
@@ -469,7 +482,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[38]:
+# In[39]:
 
 
 # # Barplot for the Predictor / Independent Variable - loan : 
@@ -478,7 +491,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[39]:
+# In[40]:
 
 
 # # Barplot for the Predictor / Independent Variable - poutcome : 
@@ -487,7 +500,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[40]:
+# In[41]:
 
 
 # # Barplot for the Target / Dependent Variable :
@@ -496,7 +509,7 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # plt.show()
 
 
-# In[41]:
+# In[42]:
 
 
 # # Assumption 1 :
@@ -504,14 +517,14 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 # - <b>Our prediction will be based on the customer’s job, marital status, whether he(she) has credit in default, whether he(she) has a housing loan, whether he(she) has a personal loan, and the outcome of the previous marketing campaigns. So, we will drop the variables that we do not need.</b>
 
 
-# In[42]:
+# In[43]:
 
 
 # data_new_2 = data.copy(deep=True)
 # data.drop(data.columns[[0,3,8,9,10,11,12,13]],axis=1,inplace=True)
 
 
-# In[43]:
+# In[44]:
 
 
 # # Creating Dummies for Categorical Variables :
@@ -530,13 +543,13 @@ plt.title("Total Count based on Term Deposit Taken", y=1.02);
 
 # # 5. Back Up / Copy Data Frame :
 
-# In[44]:
+# In[45]:
 
 
 data.head()
 
 
-# In[45]:
+# In[46]:
 
 
 # Copy of Data Frame / Data Set without Preprocessing :
@@ -544,7 +557,7 @@ data.head()
 df_2 = copy.copy(data)
 
 
-# In[46]:
+# In[47]:
 
 
 df_2.head()
@@ -554,7 +567,7 @@ df_2.head()
 
 # ### 6.1 Converting Object Type to Integer using One-Hot Encoding :
 
-# In[47]:
+# In[48]:
 
 
 # Fetching Data Type of all Columns :
@@ -562,13 +575,13 @@ df_2.head()
 data.dtypes
 
 
-# In[48]:
+# In[49]:
 
 
 labelencoder = LabelEncoder()
 
 
-# In[49]:
+# In[50]:
 
 
 df_2.iloc[:,0] = labelencoder.fit_transform(df_2.iloc[:,0])
@@ -581,7 +594,7 @@ df_2.iloc[:,6] = labelencoder.fit_transform(df_2.iloc[:,6])
 df_2.iloc[:,7] = labelencoder.fit_transform(df_2.iloc[:,7])
 
 
-# In[50]:
+# In[51]:
 
 
 # # Coverting Target Variable / Column into Binary Format :
@@ -589,7 +602,7 @@ df_2.iloc[:,7] = labelencoder.fit_transform(df_2.iloc[:,7])
 # df_2["Term Deposit Taken"].replace(('yes', 'no'), (1, 0), inplace=True)
 
 
-# In[51]:
+# In[52]:
 
 
 # Successfully converted Object data into  Integer data types
@@ -597,7 +610,7 @@ df_2.iloc[:,7] = labelencoder.fit_transform(df_2.iloc[:,7])
 df_2.dtypes
 
 
-# In[52]:
+# In[53]:
 
 
 df_2.head()
@@ -611,13 +624,13 @@ df_2.head()
 # <br>
 # 2. ID3 Decision Tree Classifier
 
-# In[53]:
+# In[54]:
 
 
 # help(DecisionTreeClassifier())
 
 
-# In[54]:
+# In[55]:
 
 
 # Creating Dictionary with Classifiers :
@@ -632,7 +645,7 @@ display(classifiers)
 # '2. Decision Tree Classifier': DecisionTreeClassifier(criterion='entropy' , class_weight="balanced",max_depth=6,max_leaf_nodes=20,presort =True,random_state=10)
 
 
-# In[55]:
+# In[56]:
 
 
 # View the (Rows,Columns) in DataFrame :
@@ -643,7 +656,7 @@ df_2.shape
 
 # # 7. Splitting Predictor and Target Variables into X and y : 
 
-# In[56]:
+# In[57]:
 
 
 # Seperating Predictor and Target Columns into X and y Respectively :
@@ -668,7 +681,7 @@ display("Predictors : ",data_X.head())
 display("Target : ",data_y.head())
 
 
-# In[57]:
+# In[58]:
 
 
 # Log Columns Headings :
@@ -687,13 +700,13 @@ log = pd.DataFrame(columns=log_cols)
 
 # # 9. Standardizing, Fitting, Predicting and Scoring the Data using all Classifiers along with Confusion Matrix :
 
-# In[58]:
+# In[59]:
 
 
 pwd
 
 
-# In[59]:
+# In[69]:
 
 
 import warnings
@@ -739,14 +752,14 @@ for Name,classify in classifiers.items():
         fig = gcf()
         fig.savefig(Name+'tree.jpg')
         plt.show() 
-#         dot_data = StringIO()
-#         export_graphviz(cls, out_file=dot_data,  
-#                         filled=True, rounded=True,
-#                         special_characters=True, feature_names = predictors,class_names=['0','1'])
-#         graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
-#         graph.write_png('Term Deposit.png')
-#         Image(graph.create_png())
-        
+        dot_data = StringIO()
+        export_graphviz(cls, out_file=dot_data,  
+                        filled=True, rounded=True,
+                        special_characters=True, feature_names = ["Age","Job","Marital Status","Education","Credit Default","Housing Loan","Personal Loan"],class_names=['0','1'])
+        graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+        graph.write_png('Term Deposit.jpg')
+        Image(graph.create_png())
+        plt.show()
         y_out = cls.predict(X_test)
         
         # Calculating Accuracy, Precision, Recall, ROC_AUC and F1 Scores :
@@ -786,6 +799,7 @@ for Name,classify in classifiers.items():
         df['Term_Deposit'].replace((1, 0), ('yes', 'no'), inplace=True)        
         df.to_csv(result_location + "Term_Deposit_"+Name+".csv", header=['Index','Term Deposit Taken'],index=0)
         
+
         # Plotting ROC-AUC using True Positive Rate (Sensitivity) vs False Positive Rate (1 - Specificity) :  
         
 #         if(Name!="8. Support Vector Classifier"):
@@ -810,13 +824,7 @@ for Name,classify in classifiers.items():
 # Scroll complete output to view all the accuracy scores and bar graph.
 
 
-# In[60]:
-
-
-get_ipython().run_line_magic('tb', '')
-
-
-# In[61]:
+# In[70]:
 
 
 log
@@ -826,7 +834,7 @@ log
 
 # ### 1. Accuracy Score Comparison for All Classification Models :
 
-# In[62]:
+# In[71]:
 
 
 # Accuracy Score Comparison :
@@ -840,7 +848,7 @@ plt.show()
 
 # ### 2. Precision Score Comparison for All Classification Models :
 
-# In[63]:
+# In[72]:
 
 
 # Precision Score Comparison :
@@ -854,7 +862,7 @@ plt.show()
 
 # ### 3. Recall Score Comparison for All Classification Models :
 
-# In[64]:
+# In[ ]:
 
 
 # Recall Score Comparison :
@@ -868,7 +876,7 @@ plt.show()
 
 # ### 4. ROC_AUC Score Comparison for All Classification Models :
 
-# In[65]:
+# In[73]:
 
 
 # ROC_AUC Score Comparison :
@@ -882,7 +890,7 @@ plt.show()
 
 # ### 5. F1 Score Comparison for All Classification Models :
 
-# In[66]:
+# In[74]:
 
 
 # F1 Score Comparison :
@@ -896,7 +904,7 @@ plt.show()
 
 # ### 6. CV_2_Fold Comparison for All Classification Models :
 
-# In[67]:
+# In[75]:
 
 
 # CV_2_Fold Comparison :
@@ -910,7 +918,7 @@ plt.show()
 
 # ### 7. CV_5_Fold Comparison for All Classification Models :
 
-# In[68]:
+# In[76]:
 
 
 # CV_5_Fold Comparison :
@@ -924,7 +932,7 @@ plt.show()
 
 # ### 8. CV_10_Fold Comparison for All Classification Models :
 
-# In[69]:
+# In[77]:
 
 
 # CV_10_Fold Comparison :
@@ -938,7 +946,7 @@ plt.show()
 
 # ### 9. CV_20_Fold Comparison for All Classification Models :
 
-# In[70]:
+# In[78]:
 
 
 # CV_20_Fold Comparison :
